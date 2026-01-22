@@ -1,28 +1,34 @@
-const submitButton = document.querySelector('#submit-button');
-const myForm = document.querySelector('#my-form');
 const nameInput = document.querySelector('#name');
 const emailInput = document.querySelector('#email');
+const submitButton = document.querySelector('#submit-button');
+
+const errorMessage = document.querySelector('.msg');
 
 const items = document.querySelector('.items');
-const body = document.querySelector('body');
 
-submitButton.addEventListener('click', function(event){
-    event.preventDefault();
-    
+submitButton.addEventListener('click', (e) => {
+    e.preventDefault();
+
     const nameValue = nameInput.value;
     const emailValue = emailInput.value;
 
-    if (nameValue === '' || emailValue === ''){
-        return alert('Por favor, preencha todos os campos.');
+    if (nameValue === '' || emailValue === '') {
+        errorMessage.textContent = 'Please enter all fields';
+        errorMessage.classList = "error";
+
+        setTimeout(() => {
+            errorMessage.textContent = '';
+            errorMessage.classList = '';
+        }, 3000);
+        return;
     }
 
-    myForm.style.background = "green";
-    items.firstElementChild.textContent = nameValue;
-    items.children[1].textContent = emailValue;
+    const li = document.createElement("li");
+    li.classList = "item";
+    li.innerHTML = `Nome: ${nameValue} <br /> Email: ${emailValue}`;
+    items.appendChild(li);
 
-    body.style.background = "pink";
-})
+    nameInput.value = '';
+    emailInput.value = '';
 
-// nameInput.addEventListener('change', function(event){
-//     console.log(event.target.value);
-// });
+});
